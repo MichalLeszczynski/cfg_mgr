@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 echo 'Cloning repo with secrets...'
 git clone git@github.com:MichalLeszczynski/secret_files.git
 echo 'Copying secrets to desired places...'
