@@ -1,0 +1,52 @@
+---
+- name: Create directory for python configuration
+  file:
+    path: "{{ ansible_env.HOME }}/python"
+    owner: "{{ ansible_user }}"
+    mode: "2775"
+    state: directory
+
+- name: Install pyenv
+  git:
+    repo: "https://github.com/pyenv/pyenv.git"
+    dest: "{{ ansible_env.HOME }}/python/pyenv"
+    depth: 1
+
+- name: Check if the required version of python is installed
+  stat:
+    path: "{{ ansible_env.HOME }}/python/pyenv/versions/{{ python_version }}"
+  register: required_python
+
+- name: Install required version of python using pyenv
+  shell:  'pyenv install {{ python_version }}'
+  environment:
+    PYENV_ROOT: "{{ ansible_env.HOME }}/python/pyenv"
+    PATH: "{{ ansible_env.HOME }}/python/pyenv/bin:{{ lookup('env','PATH') }}"
+  args:
+    creates: "{{ ansible_env.HOME }}/python/pyenv/versions/{{ python_version }}"
+  when: not required_python.stat.exists
+
+- name: Set global pyenv python version
+  command:  "pyenv global {{ python_version }}"
+  environment:
+    PYENV_ROOT: "{{ ansible_env.HOME }}/python/pyenv"
+    PATH: "{{ ansible_env.HOME }}/python/pyenv/bin:{{ lookup('env','PATH') }}"
+  when: not required_python.stat.exists
+
+- name: Add pyenv activation to bashrc
+  blockinfile:
+    block: |
+      export PYENV_ROOT="{{ ansible_env.HOME }}/python/pyenv"
+      export PATH="${PYENV_ROOT}/bin:${PATH}"
+      if command -v pyenv 1>/dev/null 2>&1; then
+          eval "$(pyenv init -)"
+      fi
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    insertafter: EOF
+    marker: '#{mark} ANSIBLE MANAGED BLOCK PYTHON'
+    state: present
+
+- name: Install pip packages
+  pip:
+    name: "{{ pip_modules_to_install }}"
+    executable: "{{ ansible_env.HOME }}/python/pyenv/shims/pip"

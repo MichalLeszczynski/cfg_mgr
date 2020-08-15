@@ -1,0 +1,15 @@
+
+---
+  - name: Configure vim
+    import_tasks: vim.yaml
+
+  - name: Install ssh keys
+    import_tasks: ssh_keys.yaml
+
+
+
+
+
+
+
+    

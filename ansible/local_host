@@ -1,0 +1,5 @@
+[have_sudo]
+localhost ansible_connection=local ansible_user=ml
+
+[profiles]
+localhost ansible_connection=local ansible_user=ml 

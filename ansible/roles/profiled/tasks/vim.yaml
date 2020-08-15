@@ -1,0 +1,36 @@
+
+---
+- name: Download basic vim setup repo   
+  git:
+    repo: 'https://github.com/amix/vimrc.git'
+    dest: "{{ ansible_env.HOME }}/.vim_runtime"
+    force: yes
+    depth: 1
+
+- name: Run vim init script
+  shell: "{{ ansible_env.HOME }}/.vim_runtime/install_awesome_vimrc.sh && touch {{ ansible_env.HOME }}/ansible-flags/vim-init"
+  args:
+    creates: "{{ ansible_env.HOME }}/ansible-flags/vim-init"
+
+- name: Download vim plugins repo   
+  git:
+    repo: 'https://github.com/gmarik/Vundle.vim.git'
+    dest:  "{{ ansible_env.HOME }}/.vim/bundle/Vundle.vim"
+    force: yes
+    depth: 1
+
+- name: Add custom .vimrc for Vundle
+  blockinfile:
+    block: |
+      "{{ lookup('file', 'common/vimrc_content') }}"
+    path: ~/.vimrc
+    insertafter: EOF
+    marker: '"{mark} ANSIBLE MANAGED BLOCK'
+    state: present
+  register: vimrc
+
+- name: install vim plugins                                                                                                                   
+  shell: >                                                                                                                                  
+    (echo -ne '\n' | vim -E -s -c "source ~/.vimrc" -c PluginInstall -c qa | echo 'failed') && touch ~/ansible-flags/vim-plugin-install
+  register: resultvim
+  when: vimrc.changed

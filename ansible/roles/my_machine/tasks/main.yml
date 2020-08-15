@@ -1,0 +1,28 @@
+
+---
+  - name: Install packages necessary for a new system
+    apt:
+      update_cache: yes
+      state: present
+      autoclean: yes
+      autoremove: yes
+      name: "{{ packages_to_install }}"
+    become: yes
+  
+  # - name: Install vs code
+  #   snap:
+  #     name: code
+  #     classic: yes
+  #     state: present
+
+  - name: Add user to docker group
+    user:
+      name: "{{ansible_user}}"
+      groups: docker, sudo, plugdev, adm
+    become: yes
+
+  #    - name: Make sure a docker service is running
+  #  systemd:
+  #    state: started
+  #    name: docker
+  #    become: yes
