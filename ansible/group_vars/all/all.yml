@@ -12,6 +12,7 @@ packages_to_install:
     - python3-pip
     - curl
     - wget
+    - unzip
 
     - make 
     - build-essential

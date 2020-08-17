@@ -1,0 +1,9 @@
+---
+- name: Add VBox to PATH in bashrc
+  blockinfile:
+    block: |
+        export PATH=$PATH:/mnt/c/Program\ Files/Oracle/VirtualBox
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    insertafter: EOF
+    marker: '#{mark} ANSIBLE MANAGED BLOCK WSL'
+    state: present

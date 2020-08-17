@@ -1,13 +1,26 @@
 
 ---
   - name: Configure vim
-    import_tasks: vim.yaml
+    import_tasks: vim.yml
 
   - name: Install ssh keys
-    import_tasks: ssh_keys.yaml
+    import_tasks: ssh_keys.yml
 
+  - name: Create dir for user-specific programs
+    file: 
+      dest: "{{ ansible_env.HOME }}/bin"
+      mode: 0700 
+      owner: "{{ansible_user}}"
+      state: directory
 
-
+  - name: Install user-specific programs 
+    blockinfile:
+      block: |
+        export PATH="{{ ansible_env.HOME }}/Documents/Usefull_Stuff/ssh:$PATH"
+      path: "{{ ansible_env.HOME }}/.bashrc"
+      insertafter: EOF
+      marker: '#{mark} ANSIBLE MANAGED BLOCK PATH'
+      state: present
 
 
 

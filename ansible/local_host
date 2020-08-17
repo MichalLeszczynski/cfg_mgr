@@ -1,5 +1,15 @@
-[have_sudo]
-localhost ansible_connection=local ansible_user=ml
+all:
+  children:
+    wsl:
+      hosts:
+        localhost: 
+          ansible_connection: local 
+          ansible_user: ml
 
-[profiles]
-localhost ansible_connection=local ansible_user=ml 
+    have_sudo:
+      children:
+        wsl:
+
+    profiles:
+      children:
+        have_sudo:
