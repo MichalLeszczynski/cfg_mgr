@@ -1,0 +1,37 @@
+---
+- name: Check if vagrant is installed
+  stat:
+    path: "{{ ansible_env.HOME }}/bin/vagrant"
+  register: vagrant
+
+- name: Create a symbolic link for vagrant
+  file:
+    src: /mnt/c/HashiCorp/Vagrant/bin/vagrant.exe
+    dest: "{{ ansible_env.HOME }}/bin/vagrant"
+    state: link
+  when: not vagrant.stat.exists
+
+- name: Add Vagrant environment variables to bashrc
+  blockinfile:
+    block: |
+      export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    insertafter: EOF
+    marker: '#{mark} ANSIBLE MANAGED BLOCK VAGRANT'
+    state: present
+
+# - name: Create directory for vagrant in .ssh dir
+#   file:
+#     path: "{{ ansible_env.HOME }}/.ssh/vagrant.d"
+#     owner: "{{ ansible_user }}"
+#     mode: "2775"
+#     state: directory
+
+# - name: Include vagrant config in ssh config
+#   blockinfile:
+#     block: |
+#       Include vagrant.d/sshconfig
+#     path: "{{ ansible_env.HOME }}/.ssh/config"
+#     insertafter: EOF
+#     marker: '#{mark} ANSIBLE MANAGED BLOCK SSH CONFIG'
+#     state: present

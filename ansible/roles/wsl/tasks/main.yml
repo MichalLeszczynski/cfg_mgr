@@ -5,5 +5,17 @@
         export PATH=$PATH:/mnt/c/Program\ Files/Oracle/VirtualBox
     path: "{{ ansible_env.HOME }}/.bashrc"
     insertafter: EOF
+    marker: '#{mark} ANSIBLE MANAGED BLOCK VBOX'
+    state: present
+
+- name: Add WSL utilities to bashrc
+  blockinfile:
+    block: |
+      alias desk='cd /mnt/c/Users/admin/Desktop'
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    insertafter: EOF
     marker: '#{mark} ANSIBLE MANAGED BLOCK WSL'
     state: present
+
+- name: Set-up vagrant
+  import_tasks: vagrant.yml
