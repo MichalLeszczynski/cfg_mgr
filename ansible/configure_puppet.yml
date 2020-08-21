@@ -1,0 +1,11 @@
+---
+    - hosts: have_sudo
+      vars:
+      - remote_host_username: "{{ ansible_user }}"
+      pre_tasks: 
+      - include_tasks: "{{ item }}"
+        with_items: "{{ preconfig_tasks }}"
+      
+      roles:
+      - puppet
+    

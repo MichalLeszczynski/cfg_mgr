@@ -19,19 +19,3 @@
     insertafter: EOF
     marker: '#{mark} ANSIBLE MANAGED BLOCK VAGRANT'
     state: present
-
-# - name: Create directory for vagrant in .ssh dir
-#   file:
-#     path: "{{ ansible_env.HOME }}/.ssh/vagrant.d"
-#     owner: "{{ ansible_user }}"
-#     mode: "2775"
-#     state: directory
-
-# - name: Include vagrant config in ssh config
-#   blockinfile:
-#     block: |
-#       Include vagrant.d/sshconfig
-#     path: "{{ ansible_env.HOME }}/.ssh/config"
-#     insertafter: EOF
-#     marker: '#{mark} ANSIBLE MANAGED BLOCK SSH CONFIG'
-#     state: present

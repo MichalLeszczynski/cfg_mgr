@@ -1,4 +1,13 @@
 ---
+- name: Install packages necessary to build python
+  apt:
+    update_cache: yes
+    state: present
+    autoclean: yes
+    autoremove: yes
+    name: "{{ packages_for_python }}"
+  become: yes
+
 - name: Create directory for python configuration
   file:
     path: "{{ ansible_env.HOME }}/python"

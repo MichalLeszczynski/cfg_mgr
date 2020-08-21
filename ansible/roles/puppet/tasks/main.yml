@@ -1,0 +1,33 @@
+- name: Set up puppet
+  import_tasks: puppet.yml
+
+- name: Install gem packages
+  gem:
+    name: r10k
+    state: present
+    executable: /opt/puppetlabs/puppet/bin/gem
+    user_install: no
+  become: yes
+
+- name: Create r10k config dir
+  file:
+    path: "/etc/puppetlabs/r10k"
+    owner: root
+    state: directory
+  become: yes
+
+- name: Add r10k config
+  blockinfile:
+    block: |
+      ---
+      :cachedir: '/var/cache/r10k'
+      :sources: 
+        :my-org:
+          remote: 'https://github.com/MichalLeszczynski/control_repo.git'
+          basedir: '/etc/puppetlabs/code/environments'
+    path: /etc/puppetlabs/r10k/r10k.yaml
+    insertafter: EOF
+    marker: '#{mark} ANSIBLE MANAGED BLOCK r10k'
+    create: yes
+    state: present
+  become: yes
