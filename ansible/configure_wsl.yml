@@ -8,8 +8,8 @@
         with_items: "{{ preconfig_tasks }}"
       
       roles:
-      # - my_machine
-      # - profiled
-      # - python
+      - my_machine
+      - profiled
+      - python
       - wsl
     
