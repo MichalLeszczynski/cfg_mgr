@@ -1,14 +1,10 @@
 all:
   children:
-    wsl:
+    have_sudo:
       hosts:
         localhost: 
           ansible_connection: local 
           ansible_user: michal
-
-    have_sudo:
-      children:
-        wsl:
 
     profiles:
       children:
