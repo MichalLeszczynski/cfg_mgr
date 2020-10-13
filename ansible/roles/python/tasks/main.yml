@@ -5,7 +5,7 @@
     state: present
     autoclean: yes
     autoremove: yes
-    name: "{{ packages_for_python }}"
+    name: "{{ packages_for_python|list }}"
   become: yes
 
 - name: Create directory for python configuration
@@ -59,3 +59,16 @@
   pip:
     name: "{{ pip_modules_to_install }}"
     executable: "{{ ansible_env.HOME }}/python/pyenv/shims/pip"
+
+- name: Capture files to delete
+  find:
+    paths: "{{ ansible_env.HOME }}/python/pyenv/versions"
+    file_type: directory
+    excludes: "{{ python_version }}"
+  register: old_python_versions
+
+- name: Delete files
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ old_python_versions['files'] }}"

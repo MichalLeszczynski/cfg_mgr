@@ -6,7 +6,7 @@
       state: present
       autoclean: yes
       autoremove: yes
-      name: "{{ packages_to_install }}"
+      name: "{{ packages_to_install|list }}"
     become: yes
   
   # - name: Install vs code

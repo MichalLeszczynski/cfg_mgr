@@ -4,12 +4,16 @@ all:
       hosts:
         localhost: 
           ansible_connection: local 
-          ansible_user: ml
+          ansible_user: michal
 
     have_sudo:
       children:
         wsl:
 
     profiles:
+      children:
+        have_sudo:
+
+    python_users:
       children:
         have_sudo:
