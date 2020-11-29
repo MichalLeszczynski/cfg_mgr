@@ -4,7 +4,6 @@
   file: 
     dest: "{{ ansible_env.HOME }}/.ssh"
     mode: 0700 
-    owner: "{{ansible_user}}"
     state: directory
 
 - name: Install ssh key
@@ -12,11 +11,10 @@
     src: "common/{{ item }}" 
     dest: "{{ ansible_env.HOME }}/.ssh/{{ item }}"
     mode: 0600
-    owner: "{{ansible_user}}"
   with_items: "{{ ssh_files }}"
 
-- name: Set authorized key
-  authorized_key:
-    user: "{{ansible_user}}"
-    state: present
-    key: "{{ lookup('file', 'common/id_rsa.pub') }}"
+  #- name: Set authorized key
+  #authorized_key:
+  #  user: "{{ansible_user}}"
+  #  state: present
+  #  key: "{{ lookup('file', 'common/id_rsa.pub') }}"

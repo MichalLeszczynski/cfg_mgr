@@ -11,8 +11,6 @@
 - name: Create directory for python configuration
   file:
     path: "{{ ansible_env.HOME }}/python"
-    owner: "{{ ansible_user }}"
-    mode: "2775"
     state: directory
 
 - name: Install pyenv

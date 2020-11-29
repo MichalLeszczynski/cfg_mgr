@@ -9,8 +9,6 @@
   - name: Create dir for user-specific programs
     file: 
       dest: "{{ ansible_env.HOME }}/bin"
-      mode: 0700 
-      owner: "{{ansible_user}}"
       state: directory
 
   - name: Install user-specific programs 
