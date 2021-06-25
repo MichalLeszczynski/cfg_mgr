@@ -14,3 +14,4 @@ packages_to_install:
     geary:
     htop:
     sshfs:
+    feh:

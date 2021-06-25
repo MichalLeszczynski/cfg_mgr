@@ -8,6 +8,6 @@
     with_items: "{{ preconfig_tasks }}"
   
   roles:
-  - my_machine
-  - profiled
+  # - my_machine
+  # - profiled
   - python
