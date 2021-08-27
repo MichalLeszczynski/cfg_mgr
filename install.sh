@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 # Installing Xcode Command Line Tools
 xcode-select --install
 
