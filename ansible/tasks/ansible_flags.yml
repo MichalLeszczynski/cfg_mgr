@@ -1,5 +1,0 @@
----
-- name: Create ansible flags dir
-  file:
-    path: ~/ansible-flags
-    state: directory

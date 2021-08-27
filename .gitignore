@@ -1,5 +1,6 @@
-hosts
+*.vagrant
+.DS_Store
+*.retry
 id_rsa
 id_rsa.pub
-config
 *.retry

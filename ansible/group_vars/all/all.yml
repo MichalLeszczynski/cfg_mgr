@@ -1,5 +1,0 @@
----
-preconfig_tasks:
-    - tasks/ansible_flags.yml
-
-puppet_bin: /opt/puppetlabs/bin
